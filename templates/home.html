@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE/css/adminlte.min.css' %}">
+    <!-- jQuery -->
+    <script src="{% static 'lib/AdminLTE/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'lib/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lib/AdminLTE/js/adminlte.min.js' %}"></script>
+    <!-- AdminLTE -->
+    <script src="{% static 'lib/AdminLTE/js/demo.js' %}"></script>
+   <!-- Sweetalert2 -->
+    <script src="{% static 'lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
+   <!-- Functions -->
+    <script src="{% static 'js/functions.js' %}"></script>
+    <!-- Block head -->
+    {% block head %}
+
+    {% endblock %}
+</head>
+
+{% block body %}
+
+{% endblock %}
+
+</html>

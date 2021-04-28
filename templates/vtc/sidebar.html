@@ -1,0 +1,141 @@
+{% load static %}
+<aside class="main-sidebar sidebar-light-primary elevation-4">
+    <a href="{% url 'activos:dashboard' %}" class="brand-link">
+        <img src="{% static 'img/logo.png' %}"
+             alt="Logo"
+             class="brand-image"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">Gestión de Activos</span>
+    </a>
+    <div class="sidebar">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="../../../../media/{{ request.user.get_image }}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="{% url 'usuario:user_profile' %}" class="d-block">{{ request.user.first_name }} {{ request.user.last_name }}</a>
+            </div>
+        </div>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-header">Datos más relevantes</li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:activos_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-archive"></i>
+                        <p>
+                            Activos
+                        </p>
+                    </a>
+                </li>
+{#                <li class="nav-item">#}
+{#                    <a href="#" class="nav-link">#}
+{#                        <i class="nav-icon fas fa-skull"></i>#}
+{#                        <p>#}
+{#                            Exploits#}
+{#                        </p>#}
+{#                    </a>#}
+{#                </li>#}
+                <li class="nav-item">
+                    <a href="{% url 'activos:vulnerabilidad_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-exclamation-triangle"></i>
+                        <p>
+                            Vulnerabilidades
+                        </p>
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-header">Tipos de Activos</li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:datos_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>
+                            Datos
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:equipoRed_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-server"></i>
+                        <p>
+                            Equipos de red
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:hardware_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Hardware
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:noDeterminado_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-swatchbook"></i>
+                        <p>
+                            No determinado
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:nube_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-cloud"></i>
+                        <p>
+                            Nube
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:ordenador_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-laptop"></i>
+                        <p>
+                            Ordenadores
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:plugin_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-plug"></i>
+                        <p>
+                            Plugins
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:protocolo_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-project-diagram"></i>
+                        <p>
+                            Protocolos
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:puertos_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-ethernet"></i>
+                        <p>
+                            Puertos
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:red_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-network-wired"></i>
+                        <p>
+                            Redes
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'activos:software_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-window-restore"></i>
+                        <p>
+                            Software
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</aside>
