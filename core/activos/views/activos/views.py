@@ -179,6 +179,6 @@ class ActivoVulnerabilidadesListView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Vulnerabilidades de '+ self.get_object().nombre
+        context['title'] = 'Listado de Vulnerabilidades de ' + self.get_object().nombre
         context['entity'] = 'Activos'
         return context

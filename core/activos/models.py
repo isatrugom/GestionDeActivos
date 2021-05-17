@@ -6,6 +6,9 @@ from django.utils import timezone
 
 
 # Activo
+from config.settings import MEDIA_URL
+
+
 class Activo(models.Model):
     IMPACTO = (
         ('Alto', 'Alto'),
@@ -30,43 +33,25 @@ class Activo(models.Model):
         ordering = ['id']
 
 
-# Exploit
-class Exploit(models.Model):
-    id = models.TextField(verbose_name='Id', primary_key=True)
-    descripcion = models.TextField(verbose_name='Descripcion')
-    url = models.TextField(verbose_name='URL')
-    activo = models.ManyToManyField(Activo, blank=True)
-
-    def __str__(self):
-        return self.nombre
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
-
-    class Meta:
-        verbose_name = "Exploit"
-        verbose_name_plural = "Exploits"
-        db_table = 'exploit'
-        ordering = ['id']
-
-
 # Vulnerabilidad
 class Vulnerabilidad(models.Model):
     id = models.TextField(verbose_name='Id', primary_key=True)
-    descripcion = models.TextField(verbose_name='Descripcion')
-    url = models.TextField(verbose_name='URL')
+    archivo = models.FileField(upload_to='vulnerabilidades/%Y/%m/%d/', verbose_name='Archivo', null=True, blank=True)
     activo = models.ManyToManyField(Activo, blank=True)
 
     def __str__(self):
         return self.id
 
     def toJSON(self):
-        item = model_to_dict(self, exclude='activo')
+        item = model_to_dict(self, exclude=["activo", "archivo"])
         activo_serializable = []
         for ac in self.activo.all():
             activo_serializable.append(ac.nombre)
         item['activo'] = activo_serializable
+        if self.archivo:
+            item['archivo'] = '{}{}'.format(MEDIA_URL, self.archivo)
+        else:
+            item['archivo'] = ""
         return item
 
     class Meta:

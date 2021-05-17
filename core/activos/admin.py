@@ -3,7 +3,6 @@ from core.activos.models import *
 # Register your models here.
 admin.site.register(Activo)
 admin.site.register(Vulnerabilidad)
-admin.site.register(Exploit)
 admin.site.register(Software)
 admin.site.register(NoDeterminado)
 admin.site.register(Nube)
