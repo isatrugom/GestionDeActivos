@@ -16,16 +16,16 @@ class DashboardView(TemplateView):
             for vulnerabilidad in Vulnerabilidad.objects.all():
                 for activo in vulnerabilidad.activo.all():
                     if activo.impacto == 'Alto':
-                        alto+=1
+                        alto += 1
                     elif activo.impacto == 'Bajo':
-                        bajo+=1
+                        bajo += 1
                     else:
-                        medio+=1
-                total+=1
+                        medio += 1
+                total += 1
             if total != 0:
-                data.append(alto/total)
-                data.append(medio/total)
-                data.append(bajo/total)
+                data.append(alto / total)
+                data.append(medio / total)
+                data.append(bajo / total)
             else:
                 data.append(0)
                 data.append(0)
@@ -51,17 +51,17 @@ class DashboardView(TemplateView):
             for vulnerabilidad in Vulnerabilidad.objects.all():
                 for activo in vulnerabilidad.activo.all():
                     if hasattr(activo, 'dato'):
-                        datos+=1
+                        datos += 1
                     if hasattr(activo, 'equipoRed'):
-                        equipoRed+=1
+                        equipoRed += 1
                     if hasattr(activo, 'noDeterminado'):
-                        noDeterminado+=1
+                        noDeterminado += 1
                     if hasattr(activo, 'nube'):
-                        nube+=1
+                        nube += 1
                     if hasattr(activo, 'ordenador'):
-                        ordenador+=1
+                        ordenador += 1
                     if hasattr(activo, 'hardware'):
-                        hardware+=1
+                        hardware += 1
                     if hasattr(activo, 'plugin'):
                         plugin += 1
                     if hasattr(activo, 'puerto'):
@@ -83,13 +83,83 @@ class DashboardView(TemplateView):
             data.append(puerto)
             data.append(red)
             data.append(software)
+
         except:
             pass
         return data
+
+    def get_grafico_por_tipo_activo(self):
+        data = []
+        total = 0
+        hardware = 0
+        datos = 0
+        equipoRed = 0
+        noDeterminado = 0
+        nube = 0
+        ordenador = 0
+        plugin = 0
+        protocolo = 0
+        puerto = 0
+        red = 0
+        software = 0
+        try:
+            for activo in Activo.objects.all():
+                if hasattr(activo, 'dato'):
+                    datos += 1
+                if hasattr(activo, 'equipoRed'):
+                    equipoRed += 1
+                if hasattr(activo, 'noDeterminado'):
+                    noDeterminado += 1
+                if hasattr(activo, 'nube'):
+                    nube += 1
+                if hasattr(activo, 'ordenador'):
+                    ordenador += 1
+                if hasattr(activo, 'hardware'):
+                    hardware += 1
+                if hasattr(activo, 'plugin'):
+                    plugin += 1
+                if hasattr(activo, 'puerto'):
+                    puerto += 1
+                if hasattr(activo, 'protocolo'):
+                    protocolo += 1
+                if hasattr(activo, 'red'):
+                    red += 1
+                if hasattr(activo, 'software'):
+                    software += 1
+                total += 1
+            if total != 0:
+                data.append(datos / total)
+                data.append(equipoRed / total)
+                data.append(hardware / total)
+                data.append(noDeterminado / total)
+                data.append(nube / total)
+                data.append(ordenador / total)
+                data.append(plugin / total)
+                data.append(protocolo / total)
+                data.append(puerto / total)
+                data.append(red / total)
+                data.append(software / total)
+            else:
+                data.append(0)
+                data.append(0)
+                data.append(0)
+                data.append(0)
+                data.append(0)
+                data.append(0)
+                data.append(0)
+                data.append(0)
+                data.append(0)
+                data.append(0)
+                data.append(0)
+        except:
+            pass
+        return data
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['panel'] = 'Panel de administrador'
         context['grafico_por_impacto'] = self.get_grafico_por_impacto()
         context['grafico_por_tipo'] = self.get_grafico_por_tipo()
+        context['grafico_por_tipo_activo'] = self.get_grafico_por_tipo_activo()
         return context

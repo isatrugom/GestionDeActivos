@@ -9,16 +9,37 @@
 
 {% block content %}
     <div class="container-fluid">
-        <div class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-6">
+            <div id="containerActivo">
+
+            </div>
+        </div>
+        <div class="col-lg-6">
             <div id="container">
 
             </div>
+        </div>
+        <div class="col-lg-12">
             <div id="container2">
 
             </div>
         </div>
     </div>
     <script>
+        var pieColors = (function () {
+            var colors = [],
+            base = Highcharts.getOptions().colors[0],
+            i;
+
+            for (i = 0; i < 10; i += 1) {
+                // Start out with a darkened base color (negative brighten), and end
+                // up with a much brighter color
+                colors.push(Highcharts.color(base).brighten((i - 3) / 7).get());
+            }
+            return colors;
+        }());
+
         Highcharts.chart('container', {
             chart: {
                 plotBackgroundColor: null,
@@ -62,6 +83,77 @@
                     name: 'Bajo',
                     y: {{ grafico_por_impacto }}[2]
                 }]
+            }]
+        });
+
+        Highcharts.chart('containerActivo', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Activos según su tipo'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    colors: pieColors,
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            series: [{
+                name: 'Tipo de activo',
+                colorByPoint: true,
+                data: [{
+                    name: 'Datos',
+                    y: {{ grafico_por_tipo_activo }}[0],
+                    sliced: true,
+                    selected: true
+                }, {
+                    name: 'Equipos de Red',
+                    y: {{ grafico_por_tipo_activo }}[1]
+                },  {
+                    name: 'Hardware',
+                    y: {{ grafico_por_tipo_activo }}[2]
+                },  {
+                    name: 'No Determinado',
+                    y: {{ grafico_por_tipo_activo }}[3]
+                },  {
+                    name: 'Nube',
+                    y: {{ grafico_por_tipo_activo }}[4]
+                },  {
+                    name: 'Ordenadores',
+                    y: {{ grafico_por_tipo_activo }}[5]
+                },  {
+                    name: 'Plugins',
+                    y: {{ grafico_por_tipo_activo }}[6]
+                },  {
+                    name: 'Protocolos',
+                    y: {{ grafico_por_tipo_activo }}[7]
+                },  {
+                    name: 'Puertos',
+                    y: {{ grafico_por_tipo_activo }}[8]
+                },  {
+                    name: 'Redes',
+                    y: {{ grafico_por_tipo_activo }}[9]
+                },  {
+                    name: 'Software',
+                    y: {{ grafico_por_tipo_activo }}[10]
+                },]
             }]
         });
 
