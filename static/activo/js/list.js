@@ -31,7 +31,7 @@ $(function () {
                     render: function (data, type, row){
                         var buttons = '<a href="/activos/activo/editar/'+row.id+'/" class="btn btn-warning btn-xs"><i class="fas fa-edit"></i></a>&nbsp';
                         buttons += '<a href="/activos/activo/eliminar/'+row.id+'/" type="button" class="btn btn-danger btn-xs"><i class="fas fa-trash"></i></a>&nbsp';
-                        buttons += '<a href="#" type="button" class="btn btn-secondary btn-xs"><i class="fas fa-exclamation-triangle"></i></a>';
+                        buttons += '<a href="/activos/activo/vulnerabilidades/crear/'+row.id+'/" type="button" class="btn btn-secondary btn-xs"><i class="fas fa-exclamation-triangle"></i></a>';
                         return buttons;
                     }
                 }

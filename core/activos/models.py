@@ -37,7 +37,7 @@ class Activo(models.Model):
 class Vulnerabilidad(models.Model):
     id = models.TextField(verbose_name='Id', primary_key=True)
     archivo = models.FileField(upload_to='vulnerabilidades/%Y/%m/%d/', verbose_name='Archivo', null=True, blank=True)
-    activo = models.ManyToManyField(Activo, blank=True)
+    activo = models.ManyToManyField(Activo)
 
     def __str__(self):
         return self.id

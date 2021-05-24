@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.core.files import File
 from django.http import JsonResponse
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView, DetailView
@@ -7,6 +9,11 @@ from django.utils.decorators import method_decorator
 
 from core.activos.forms import ActivoForm
 from core.activos.models import Activo, Vulnerabilidad
+
+import os
+import subprocess
+import shlex
+import time
 
 
 class ActivoListView(ListView):
@@ -182,3 +189,25 @@ class ActivoVulnerabilidadesListView(DetailView):
         context['title'] = 'Listado de Vulnerabilidades de ' + self.get_object().nombre
         context['entity'] = 'Activos'
         return context
+
+
+def añade_vulnerabilidades(request, pk):
+    activo = Activo.objects.get(pk=pk)
+    parametro = activo.nombre
+    subprocess.call(shlex.split('./main.py -k ' + parametro))
+
+    # Pausa 30 segundos para calcular los modelos
+    time.sleep(30)
+
+    directorio = r'/home/ubuntu/AmadeusEnv/bin/AMADEUS/fm/models'
+    for nombre_archivo in os.listdir(directorio):
+        nombre = nombre_archivo.split(".")[0]
+        try:
+            v = Vulnerabilidad.objects.get(id=nombre, activo=activo)
+        except Vulnerabilidad.DoesNotExist:
+            f = open(os.path.join(directorio, nombre_archivo), "r")
+            v = Vulnerabilidad(id=nombre, archivo=File(f))
+            v.save()
+            v.activo.add(activo)
+        v.save()
+    return redirect('activos:vulnerabilidad_list')

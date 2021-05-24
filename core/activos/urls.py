@@ -1,4 +1,6 @@
 from django.urls import path
+
+from core.activos.views.activos import views
 from core.activos.views.activos.views import *
 from core.activos.views.dashboard.views import DashboardView
 from core.activos.views.datos.views import *
@@ -23,6 +25,7 @@ urlpatterns = [
     path('activo/eliminar/<pk>/', ActivoDeleteView.as_view(), name="activos_delete"),
     path('activo/formulario/', ActivoFormView.as_view(), name="activos_form"),
     path('activo/vulnerabilidades/<pk>/', ActivoVulnerabilidadesListView.as_view(), name="activos_vulnerabilidades"),
+    path('activo/vulnerabilidades/crear/<pk>/', views.añade_vulnerabilidades, name="activos_crear_vulnerabilidades"),
 
     path('datos/listado/', DatoListView.as_view(), name="datos_list"),
     path('datos/añadir/', DatoCreateView.as_view(), name="datos_add"),
