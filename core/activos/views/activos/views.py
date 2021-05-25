@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView, DetailView
 from django.utils.decorators import method_decorator
+from django.conf import settings
 
 from core.activos.forms import ActivoForm
 from core.activos.models import Activo, Vulnerabilidad
@@ -158,6 +159,7 @@ class ActivoFormView(FormView):
         context['action'] = "add"
         return context
 
+
 class ActivoVulnerabilidadesListView(DetailView):
     model = Activo
     template_name = 'activo/vulnerability.html'
@@ -194,18 +196,21 @@ class ActivoVulnerabilidadesListView(DetailView):
 def añade_vulnerabilidades(request, pk):
     activo = Activo.objects.get(pk=pk)
     parametro = activo.nombre
-    subprocess.call(shlex.split('./main.py -k ' + parametro))
+    subprocess.call('cd /home/ubuntu/AmadeusEnv/bin')
+    subprocess.call('source activate')
+    subprocess.call(shlex.split('python /home/ubuntu/AmadeusEnv/bin/AMADEUS/main.py -k ' + parametro))
 
-    # Pausa 30 segundos para calcular los modelos
-    time.sleep(30)
+    # Pausa 90 segundos para calcular los modelos
+    time.sleep(90)
 
     directorio = r'/home/ubuntu/AmadeusEnv/bin/AMADEUS/fm/models'
     for nombre_archivo in os.listdir(directorio):
+        os.rename(directorio + nombre_archivo, settings.MEDIA_ROOT + nombre_archivo)
         nombre = nombre_archivo.split(".")[0]
         try:
             v = Vulnerabilidad.objects.get(id=nombre, activo=activo)
         except Vulnerabilidad.DoesNotExist:
-            f = open(os.path.join(directorio, nombre_archivo), "r")
+            f = open(os.path.join(settings.MEDIA_ROOT, nombre_archivo), "r")
             v = Vulnerabilidad(id=nombre, archivo=File(f))
             v.save()
             v.activo.add(activo)
