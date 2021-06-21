@@ -15,7 +15,7 @@ import os
 import subprocess
 import shlex
 import time
-
+import csv
 
 class ActivoListView(ListView):
     model = Activo
@@ -203,16 +203,23 @@ def añade_vulnerabilidades(request, pk):
     # Pausa 90 segundos para calcular los modelos
     time.sleep(90)
 
-    directorio = r'/home/ubuntu/AmadeusEnv/bin/AMADEUS/fm/models'
+    directorio = r'/home/ubuntu/AmadeusEnv/bin/AMADEUS/fm/models/times'
     for nombre_archivo in os.listdir(directorio):
-        os.rename(directorio + nombre_archivo, settings.MEDIA_ROOT + nombre_archivo)
-        nombre = nombre_archivo.split(".")[0]
-        try:
-            v = Vulnerabilidad.objects.get(id=nombre, activo=activo)
-        except Vulnerabilidad.DoesNotExist:
-            f = open(os.path.join(settings.MEDIA_ROOT, nombre_archivo), "r")
-            v = Vulnerabilidad(id=nombre, archivo=File(f))
-            v.save()
-            v.activo.add(activo)
-        v.save()
+        if nombre_archivo == parametro:
+            os.rename(directorio + nombre_archivo, settings.MEDIA_ROOT + nombre_archivo)
+            nombre = nombre_archivo.split(".")[0]
+            try:
+                v = Vulnerabilidad.objects.get(id=nombre, activo=activo)
+            except Vulnerabilidad.DoesNotExist:
+                f = open(os.path.join(settings.MEDIA_ROOT, nombre_archivo), "r")
+                with open(os.path.join(settings.MEDIA_ROOT, nombre_archivo)) as csv_file:
+                    csv_reader = csv.reader(csv_file, delimiter=',')
+                    line_count = 0
+                    for row in csv_reader:
+                        if line_count != 0:
+                            v = Vulnerabilidad(id=row['cve'], archivo=File(f))
+                            v.save()
+                            v.activo.add(activo)
+                            v.save()
+                            line_count += 1
     return redirect('activos:vulnerabilidad_list')
