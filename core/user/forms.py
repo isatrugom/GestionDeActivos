@@ -10,7 +10,7 @@ class UserProfileForm(ModelForm):
 
     class Meta:
         model = User
-        fields = 'first_name', 'last_name', 'email', 'username', 'password', 'image'
+        fields = 'first_name', 'last_name', 'email', 'username', 'password', 'imagen'
         widgets = {
             'first_name': TextInput(
                 attrs={
@@ -32,27 +32,15 @@ class UserProfileForm(ModelForm):
                     'placeholder': 'Introduce el nombre de usuario',
                 }
             ),
-            'password': PasswordInput(render_value=True,
-                                            attrs={
-                                                'placeholder': 'Introduce la contraseña',
-                                            }
-                                            ),
         }
-        exclude = ['last_login', 'date_joined', 'is_superuser', 'is_active', 'is_staff']
+        exclude = ['last_login', 'date_joined', 'is_superuser', 'is_active', 'is_staff', 'password']
 
     def save(self, commit=True):
         data = {}
         form = super()
         try:
             if form.is_valid():
-                pwd = self.cleaned_data['password']
                 u = form.save(commit=False)
-                if u.pk is None:
-                    u.set_password(pwd)
-                else:
-                    user = User.objects.get(pk=u.pk)
-                    if user.password != pwd:
-                        u.set_password(pwd)
                 u.save()
             else:
                 data['error'] = form.errors

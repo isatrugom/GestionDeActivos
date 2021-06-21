@@ -271,12 +271,12 @@ class PluginForm(ModelForm):
                     'placeholder': 'Escribe el proveedor del plugin',
                 }
             ),
-            'fechaAdquisicion': TextInput(
+            'fechaAdquisicion': DateInput(
                 attrs={
                     'placeholder': 'Escribe la fecha de adquisión',
                 }
             ),
-            'fechaExpiracion': TextInput(
+            'fechaExpiracion': DateInput(
                 attrs={
                     'placeholder': 'Escribe la fecha de expriación',
                 }
@@ -354,12 +354,12 @@ class SoftwareForm(ModelForm):
                     'placeholder': 'Escribe el proveedor del software',
                 }
             ),
-            'fechaAdquisicion': TextInput(
+            'fechaAdquisicion': DateInput(
                 attrs={
                     'placeholder': 'Escribe la fecha de adquisión',
                 }
             ),
-            'fechaExpiracion': TextInput(
+            'fechaExpiracion': DateInput(
                 attrs={
                     'placeholder': 'Escribe la fecha de expriación',
                 }

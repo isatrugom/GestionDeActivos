@@ -25,6 +25,14 @@ $(function () {
                     }
                 },
                 {
+                    targets: [2],
+                    render: function (data, type, row){
+                        var fecha = row.timestamp.split('-')[2].split('T')[0] + "-" + row.timestamp.split('-')[1] + "-" + row.timestamp.split('-')[0];
+                        var hora = row.timestamp.split('T')[1].substring(0, 5);
+                        return fecha + " " + hora
+                    }
+                },
+                {
                     targets: [3],
                     class: 'text-center',
                     orderable: false,

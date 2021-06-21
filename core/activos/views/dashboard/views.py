@@ -50,7 +50,7 @@ class DashboardView(TemplateView):
         try:
             for vulnerabilidad in Vulnerabilidad.objects.all():
                 for activo in vulnerabilidad.activo.all():
-                    if hasattr(activo, 'dato'):
+                    if hasattr(activo, 'datos'):
                         datos += 1
                     if hasattr(activo, 'equipoRed'):
                         equipoRed += 1
@@ -58,7 +58,7 @@ class DashboardView(TemplateView):
                         noDeterminado += 1
                     if hasattr(activo, 'nube'):
                         nube += 1
-                    if hasattr(activo, 'ordenador'):
+                    if hasattr(activo, 'ordenadores'):
                         ordenador += 1
                     if hasattr(activo, 'hardware'):
                         hardware += 1
@@ -66,7 +66,7 @@ class DashboardView(TemplateView):
                         plugin += 1
                     if hasattr(activo, 'puerto'):
                         puerto += 1
-                    if hasattr(activo, 'protocolo'):
+                    if hasattr(activo, 'protocolos'):
                         protocolo += 1
                     if hasattr(activo, 'red'):
                         red += 1
@@ -104,11 +104,12 @@ class DashboardView(TemplateView):
         software = 0
         try:
             for activo in Activo.objects.all():
-                if hasattr(activo, 'dato'):
+
+                if hasattr(activo, 'datos'):
                     datos += 1
-                if hasattr(activo, 'equipoRed'):
+                if hasattr(activo, 'equipored'):
                     equipoRed += 1
-                if hasattr(activo, 'noDeterminado'):
+                if hasattr(activo, 'nodeterminado'):
                     noDeterminado += 1
                 if hasattr(activo, 'nube'):
                     nube += 1

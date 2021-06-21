@@ -1,7 +1,8 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -34,10 +35,10 @@ class UserProfileView(UpdateView):
                 form = self.get_form()
                 data = form.save()
             else:
-                data['error'] = 'No ha ingresado a ninguna opción'
+                data['error'] = 'No se ha intoducido ninguna opción'
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data, safe=False)
+        return redirect(self.success_url)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,7 +71,7 @@ class UserChangePasswordView(FormView):
         try:
             action = request.POST['action']
             if action == 'edit':
-                form = PasswordChangeForm(user=request, data=request.POST)
+                form = PasswordChangeForm(user=request.user, data=request.POST)
                 if form.is_valid():
                     form.save()
                     update_session_auth_hash(request, form.user)
@@ -80,7 +81,7 @@ class UserChangePasswordView(FormView):
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data, safe=False)
+        return redirect(self.success_url)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

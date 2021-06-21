@@ -100,7 +100,7 @@ class ActivoUpdateView(UpdateView):
                 form = self.get_form()
                 data = form.save()
             else:
-                data['error']: 'No se ha intoducido ninguna opción'
+                data['error'] = 'No se ha intoducido ninguna opción'
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data)

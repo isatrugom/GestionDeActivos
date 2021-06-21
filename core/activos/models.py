@@ -118,24 +118,6 @@ class Nube(Activo):
         ordering = ['id']
 
 
-# Humano
-class Humano(Activo):
-    puesto = models.TextField(verbose_name='Puesto')
-
-    def __str__(self):
-        return self.nombre
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        return item
-
-    class Meta:
-        verbose_name = "Humano"
-        verbose_name_plural = "Humanos"
-        db_table = 'humano'
-        ordering = ['id']
-
-
 # Datos
 class Datos(Activo):
     ubicacion = models.TextField(verbose_name='Ubicación')
@@ -250,6 +232,14 @@ class Software(Activo):
 
     def toJSON(self):
         item = model_to_dict(self)
+        plugin_serializable = []
+        datos_serializable = []
+        for p in self.plugin.all():
+            plugin_serializable.append(p.nombre)
+        item['plugin'] = plugin_serializable
+        for d in self.datos.all():
+            datos_serializable.append(d.nombre)
+        item['datos'] = datos_serializable
         return item
 
     class Meta:
@@ -327,7 +317,15 @@ class Ordenador(Hardware):
         return self.nombre
 
     def toJSON(self):
-        item = model_to_dict(self)
+        item = model_to_dict(self, exclude=['software','datos'])
+        software_serializable = []
+        datos_serializable = []
+        for s in self.software.all():
+            software_serializable.append(s.nombre)
+        item['software'] = software_serializable
+        for d in self.datos.all():
+            datos_serializable.append(d.nombre)
+        item['datos'] = datos_serializable
         return item
 
     class Meta:
